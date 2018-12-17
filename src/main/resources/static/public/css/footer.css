@@ -1,0 +1,23 @@
+* {
+    margin: 0;
+    padding: 0;
+}
+html,
+body,
+.wrapper {
+    height: 100%;
+}
+.content {
+    box-sizing: border-box;
+    min-height: 100%;
+    padding-bottom: 90px;
+}
+#footer {
+    height: 80px;
+    margin-bottom: 0px;
+    position: relative;
+    bottom: 0;
+    text-align: center;
+    width: 100%;
+    /*background-color: rgba(188, 225, 166, 0.32);*/
+}

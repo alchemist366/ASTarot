@@ -6,10 +6,12 @@
         <sourceOutputDir name="target/generated-sources/annotations" />
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
+        <module name="ASTarot" />
         <module name="webAuthorization" />
       </profile>
     </annotationProcessing>
     <bytecodeTargetLevel>
+      <module name="ASTarot" target="1.8" />
       <module name="webAuthorization" target="1.8" />
     </bytecodeTargetLevel>
   </component>

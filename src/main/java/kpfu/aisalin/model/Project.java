@@ -1,8 +1,6 @@
 package kpfu.aisalin.model;
 
-import lombok.Builder;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.*;
 
 import javax.persistence.*;
 import java.util.Date;
@@ -10,6 +8,8 @@ import java.util.List;
 
 @Entity
 @Getter
+@NoArgsConstructor
+@AllArgsConstructor
 @Builder
 @Setter
 public class Project {
@@ -28,6 +28,11 @@ public class Project {
 
     @Column
     private boolean ready;
+
+    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
+    @JoinColumn(name = "taskId")
+    private List<Task> tasks;
+
 
     @ManyToMany
     private List<Company> companies;

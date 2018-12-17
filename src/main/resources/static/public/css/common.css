@@ -1,0 +1,17 @@
+
+a.nubex {
+    color: #fff;
+    user-select: none; /* Убираем текстовое выделение */
+    text-decoration: none;	/* Убираем подчеркивание */
+    outline: none; /* Убираем контур вокруг ссылки */
+    background-color: #1fa67b; /* Цвет фона */
+    padding: 1em 2em; /* Отступ от текста до рамки */
+    width: 100%;
+
+}
+
+a.nubex:hover {
+    color: #212121;
+    background-color: #1fa67b;/* Цвет кнопки при наведении курсора */
+}
+
