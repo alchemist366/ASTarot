@@ -1,0 +1,25 @@
+html, body {
+    height: 100%;
+    margin: 0;
+}
+#pagewrap {
+    height: auto;
+    min-height: 100%;
+}
+
+#pagewrap a {
+    text-decoration: none;
+    font-family: 'Lora', serif;
+    transition: .5s linear;
+}
+#pagewrap i {
+    margin-right: 10px;
+}
+
+
+/*.collapse {*/
+    /*margin-top: 2%;*/
+/*}*/
+/*.collapse .row {*/
+    /*height: 40px;*/
+/*}*/

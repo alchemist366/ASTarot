@@ -1,14 +1,14 @@
 package kpfu.aisalin.model;
 
-import lombok.Builder;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.*;
 
 import javax.persistence.*;
 import java.util.Date;
 
 @Entity
 @Getter
+@NoArgsConstructor
+@AllArgsConstructor
 @Builder
 @Setter
 public class Message {
@@ -23,7 +23,7 @@ public class Message {
     private String message;
 
     @ManyToOne
-    private Users user;
+    private Users users;
 
     @ManyToOne
     private Task task;

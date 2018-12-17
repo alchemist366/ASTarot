@@ -12,16 +12,21 @@ import javax.sql.DataSource;
 @Configuration
 public class AuthenticationProviderConfig {
 
-    @Qualifier("dataSource")
+    private final DataSource dataSource;
+
     @Autowired
-    private DataSource dataSource;
+    public AuthenticationProviderConfig(@Qualifier("dataSource") DataSource dataSource) {
+        this.dataSource = dataSource;
+    }
 
     @Bean(name = "userDetailsService")
     public UserDetailsService userDetailsService() {
         JdbcDaoImpl jdbcImpl = new JdbcDaoImpl();
         jdbcImpl.setDataSource(dataSource);
         jdbcImpl.setUsersByUsernameQuery("select login as username, password, true as enabled from \"users\" where login=?");
-        jdbcImpl.setAuthoritiesByUsernameQuery("select login as username, role as user from \"users\" where login=?");
+        jdbcImpl.setAuthoritiesByUsernameQuery("select login as username, role as users from \"users\" where login=?");
         return jdbcImpl;
     }
+
+
 }

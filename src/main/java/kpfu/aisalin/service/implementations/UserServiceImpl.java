@@ -1,25 +1,35 @@
 package kpfu.aisalin.service.implementations;
 
-import kpfu.aisalin.dao.UsersDAO;
+import kpfu.aisalin.dao.UserDAO;
 import kpfu.aisalin.exception.BadAuthentificationException;
+import kpfu.aisalin.model.Project;
+import kpfu.aisalin.model.Task;
 import kpfu.aisalin.model.Users;
 import kpfu.aisalin.service.interfaces.UserService;
 import kpfu.aisalin.validation.DataValidator;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.sql.Timestamp;
 import java.util.ArrayList;
-import java.util.Iterator;
+import java.util.HashMap;
 import java.util.List;
 
 @Service
 public class UserServiceImpl implements UserService {
 
     @Autowired
-    private UsersDAO usersDAO;
+    private UserDAO userDAO;
 
     @Autowired
     private DataValidator dataValidator;
+
+    @Autowired
+    private PasswordEncoder passwordEncoder;
+
+    private final int fixedSaslary = 30000;
+    private final int commonCountOfHours = 160;
 
 
     @Override
@@ -31,30 +41,64 @@ public class UserServiceImpl implements UserService {
         dataValidator.validPassword(password);
         dataValidator.equalPasswords(password, password2);
 
-        Users user = Users.builder()
+        Users users = Users.builder()
                 .login(username)
-                .password(password)
+                .password(passwordEncoder.encode(password))
+                .role("users")
                 .build();
 
-        usersDAO.save(user);
-//        try {
-//            System.out.println(usersDAO.findPasswordByLogin("alchemist366"));
-//        } catch (Exception e){}
-//
-//        for (Users us:
-//             usersDAO.findAllByLogin("alchemist366")) {
-//            System.out.println(us.toString());
-//        }
-
-//        Iterator<Users> iterator = usersDAO.findAll().iterator();
-//        System.out.println(usersDAO.findNameById(user.getId()));
+        userDAO.save(users);
     }
 
     @Override
-    public void auth(String username, String password) throws BadAuthentificationException {
-        username = username.trim();
+    public Users getUserByLogin(String login) {
+        return userDAO.findByLogin(login).get(0);
+    }
+
+    @Override
+    public HashMap<Project, List<Task>> getUserProjectsWithTasks(Users currentUsers) {
+        HashMap<Project, List<Task>> result = new HashMap<>();
+        for (Task task :
+                currentUsers.getTasks()) {
+            //узнаю проект данной задачи
+            Project project = task.getProject();
+
+            List<Task> tasks;
+            if (result.containsKey(project)) {
+                //добавляю задачу в нужный проект
+                tasks = result.get(project);
+            } else {
+                //создаю новый список задач проекта
+                tasks = new ArrayList<Task>();
+                result.put(project, tasks);
+            }
+            tasks.add(task);
+        }
+        return result;
+    }
+
+    @Override
+    public int getUserSalary(Users user) {
+        return fixedSaslary / commonCountOfHours * user.getWorkedHours();
+    }
+
+    @Override
+    public void changePassword(Users user, String password, String password2) throws BadAuthentificationException {
+        if (password != null && password != "") {
         password = password.trim();
-        dataValidator.validUsername(username);
+        password2 = password2.trim();
         dataValidator.validPassword(password);
+        dataValidator.equalPasswords(password, password2);
+        user.setPassword(passwordEncoder.encode(password));
+
+            userDAO.save(user);
+        }
+    }
+
+    @Override
+    public void chngeImg(Users user, String img) {
+        user.setImg(img);
+        userDAO.save(user);
+//        userDAO.setImageForId(img, user.getUserId());
     }
 }

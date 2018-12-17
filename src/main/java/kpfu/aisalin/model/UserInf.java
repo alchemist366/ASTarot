@@ -1,26 +1,19 @@
 package kpfu.aisalin.model;
 
-import lombok.Builder;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.*;
 
 import javax.persistence.*;
-import java.util.Date;
 
 @Entity
 @Getter
+@NoArgsConstructor
+@AllArgsConstructor
 @Builder
 @Setter
 public class UserInf {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long userInfId;
-
-    @Column(nullable = false)
-    private boolean gender;
-
-    @Column(nullable = false)
-    private Date birthday;
 
     @Column
     private String telNum;
@@ -33,9 +26,5 @@ public class UserInf {
 
     @Column
     private int salary;
-
-    @OneToOne
-    @JoinColumn( name = "userId")
-    private Users user;
 
 }
