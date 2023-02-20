@@ -25,7 +25,7 @@ public class AuthenticationProviderConfig {
         jdbcImpl.setDataSource(dataSource);
         jdbcImpl.setUsersByUsernameQuery("select login as username, password, true as enabled from \"users\" where login=?");
         jdbcImpl.setAuthoritiesByUsernameQuery("select login as username, role as users from \"users\" where login=?");
-        //
+        //jdjdjj
         return jdbcImpl;
     }
 
